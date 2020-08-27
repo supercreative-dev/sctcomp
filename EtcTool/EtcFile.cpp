@@ -109,9 +109,28 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 	m_fileformat = a_fileformat;
 	if (m_fileformat == Format::INFER_FROM_FILE_EXTENSION)
 	{
-		// TODO. check filename to determine its extension, and ...
-		// ***** TODO: add this later *****
-		m_fileformat = Format::ST2;
+		const char* toDot = strrchr(m_pstrFilename, '.');
+		if (!toDot || toDot == m_pstrFilename)
+		{
+			assert(0);
+		}
+
+		if (strcmp((toDot + 1), "st2") == 0)
+		{
+			m_fileformat = Format::ST2;
+		}
+		else if (strcmp((toDot + 1), "pkm") == 0)
+		{
+			m_fileformat = Format::PKM;
+		}
+		else if (strcmp((toDot + 1), "ktx") == 0)
+		{
+			m_fileformat = Format::KTX;
+		}
+		else
+		{
+			assert(0);
+		}
 	}
 
 	m_imageformat = a_imageformat;
