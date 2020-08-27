@@ -10,7 +10,7 @@ st2comp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다.
 1. `mkdir build_vs`
 1. `cd build_vs`
 1. 그런 다음 CMAKE를 실행시켜 주세요.
-  VS 2019 : `cmake -G "Visual Studio 16 2019" ../`
+  VS 2019 : `cmake -G "Visual Studio 16 2019" -A "win32" ../`
   주의: 현재 사용하는 버전을 확인하고 싶으시면 다음의 명령어를 입력해주세요. `cmake -G`
 1. 'EtcTest' 솔루션을 연다음,
 1. 'EtcTool' 프로젝트를 start up 프로젝트로 설정하고,
