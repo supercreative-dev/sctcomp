@@ -186,7 +186,7 @@ namespace Etc
 						unsigned short ushG = (pucPixel[2]<<8) + pucPixel[3];
 						unsigned short ushB = (pucPixel[4]<<8) + pucPixel[5];
 						unsigned short ushA = (pucPixel[6]<<8) + pucPixel[7];
-						if (ushA > 0) m_bcontainAlpha = true;
+						if (ushA < 65535) m_bcontainAlpha = true;
 
 						*pfrgbaPixel++ = ColorFloatRGBA((float)ushR / 65535.0f,
 														(float)ushG / 65535.0f,
