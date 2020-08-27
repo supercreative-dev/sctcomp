@@ -1,0 +1,2 @@
+# cmake output인 build_vs 제외
+build_vs/
