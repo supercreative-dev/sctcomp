@@ -57,27 +57,31 @@ namespace Etc
 			//
 		};
 		
+		// enum 값을 엔진과 통일 시킵니다 by hp8840
 		enum class Format
 		{
-			UNKNOWN,
+			UNKNOWN = -1,
 			//
-			ETC1,
+			ETC1 = 0,
 			//
 			// ETC2 formats
 			RGB8,
-			SRGB8,
+			RGBA_OLD, // not used
 			RGBA8,
-			SRGBA8,
+			RGB8A1,
 			R11,
 			SIGNED_R11,
 			RG11,
 			SIGNED_RG11,
-			RGB8A1,
+
+			// not used below
+			SRGB8,
+			SRGBA8,
 			SRGB8A1,
 			//
 			FORMATS,
 			//
-			DEFAULT = SRGB8
+			DEFAULT = SRGB8,
 		};
 
 		// constructor using source image

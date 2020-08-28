@@ -109,21 +109,21 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 	m_fileformat = a_fileformat;
 	if (m_fileformat == Format::INFER_FROM_FILE_EXTENSION)
 	{
-		const char* toDot = strrchr(m_pstrFilename, '.');
-		if (!toDot || toDot == m_pstrFilename)
+		const char* ext = strrchr(m_pstrFilename, '.');
+		if (!ext || ext == m_pstrFilename)
 		{
 			assert(0);
 		}
 
-		if (strcmp((toDot + 1), "st2") == 0)
+		if (strcmp((ext + 1), "st2") == 0)
 		{
 			m_fileformat = Format::ST2;
 		}
-		else if (strcmp((toDot + 1), "pkm") == 0)
+		else if (strcmp((ext + 1), "pkm") == 0)
 		{
 			m_fileformat = Format::PKM;
 		}
-		else if (strcmp((toDot + 1), "ktx") == 0)
+		else if (strcmp((ext + 1), "ktx") == 0)
 		{
 			m_fileformat = Format::KTX;
 		}

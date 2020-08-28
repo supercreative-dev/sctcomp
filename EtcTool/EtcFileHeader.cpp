@@ -81,8 +81,9 @@ namespace Etc
 			m_data.m_acVersion[ui] = s_acVersionData[ui];
 		}
 
-		m_data.m_ucDataType_msb = 0;        // ETC1_RGB_NO_MIPMAPS
-		m_data.m_ucDataType_lsb = 0;
+
+		m_data.m_ucDataType_msb = (unsigned char)((unsigned int)m_pfile->GetImageFormat() >> 8);
+		m_data.m_ucDataType_lsb = (unsigned int)m_pfile->GetImageFormat() & 0xFF;
 
 		m_data.m_ucOriginalWidth_msb = (unsigned char)(m_pfile->GetSourceWidth() >> 8);
 		m_data.m_ucOriginalWidth_lsb = m_pfile->GetSourceWidth() & 0xFF;
