@@ -91,7 +91,7 @@ namespace Etc
 		// constructor using source image
 		Image(float *a_pafSourceRGBA, unsigned int a_uiSourceWidth,
 				unsigned int a_uiSourceHeight,
-				ErrorMetric a_errormetric, Format a_format);
+				ErrorMetric a_errormetric, bool hasAlphaBorder);
 
 		// constructor using encoding bits
 		Image(Format a_format, 
@@ -148,6 +148,11 @@ namespace Etc
 		inline unsigned int GetY1(void)
 		{
 			return m_uiy1;
+		}
+
+		inline bool HasAlphaBorder(void)
+		{
+			return m_uix0 == 1 && m_uiy0 == 1;
 		}
 
 		inline unsigned int GetNumberOfBlocks()

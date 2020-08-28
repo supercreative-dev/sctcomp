@@ -83,7 +83,6 @@ namespace Etc
 		typedef struct
 		{
 			char m_acMagicNumber[4];
-			char m_acVersion[2];
 
 			unsigned char m_ucDataType_msb;             // e.g. ETC1_RGB_NO_MIPMAPS
 			unsigned char m_ucDataType_lsb;

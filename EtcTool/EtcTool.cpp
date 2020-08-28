@@ -92,7 +92,8 @@ public:
 		boolNormalizeXYZ = false;
 		mipmaps = 1;
 		mipFilterFlags = Etc::FILTER_WRAP_NONE;
-		limitArea = -1;
+		limitWidth = 0;
+		limitHeight = 0;
 	}
 
 	bool ProcessCommandLineArguments(int a_iArgs, const char *a_apstrArgs[]);
@@ -117,7 +118,8 @@ public:
 	bool boolNormalizeXYZ;
 	int mipmaps;
 	unsigned int mipFilterFlags;
-	unsigned int limitArea; // source image's area to determine etc compression format
+	unsigned int limitWidth;
+	unsigned int limitHeight;
 };
 
 #include "EtcFileHeader.h"
@@ -250,17 +252,12 @@ int main(int argc, const char * argv[])
 	}
 	else
 	{
-		// determining etc compression format by the condition below. (Image's Area & Alpha containing)
-		if (commands.limitArea > 0)
+
+		// determining whether the output contains alpha borders or not
+		bool hasAlphaBorder = false;
+		if (commands.limitWidth > 0 && commands.limitHeight)
 		{
-			if ((uiSourceWidth*uiSourceHeight) >= commands.limitArea)
-			{
-				commands.format = containAlpha ? Etc::Image::Format::RGBA8 : Etc::Image::Format::RGB8;
-			}
-			else
-			{
-				commands.format = Etc::Image::Format::RGBA8;
-			}
+			hasAlphaBorder = (uiSourceWidth * uiSourceHeight) < (commands.limitWidth * commands.limitHeight);
 		}
 
 		if (commands.verboseOutput)
@@ -271,7 +268,7 @@ int main(int argc, const char * argv[])
 			printf("  error metric: %s\n", ErrorMetricToString(commands.e_ErrMetric));
 		}
 		Etc::Image image((float *)sourceimage.GetPixels(),
-			uiSourceWidth, uiSourceHeight, commands.e_ErrMetric, commands.format);
+			uiSourceWidth, uiSourceHeight, commands.e_ErrMetric, hasAlphaBorder);
 		image.m_bVerboseOutput = commands.verboseOutput;
 
 		Etc::Image::EncodingStatus encStatus = Etc::Image::EncodingStatus::SUCCESS;
@@ -738,19 +735,33 @@ bool Commands::ProcessCommandLineArguments(int a_iArgs, const char *a_apstrArgs[
 				}
 			}
 		}
-		else if (strcmp(a_apstrArgs[iArg], "-limitarea") == 0)
+		else if (strcmp(a_apstrArgs[iArg], "-limitwidth") == 0)
 		{
 			++iArg;
 
 			if (iArg >= (a_iArgs))
 			{
-				printf("Error: missing source_image parameter for -limitarea\n");
+				printf("Error: missing source_image parameter for -limitwidth\n");
 				return true;
 			}
 			else
 			{
-				limitArea = atoi(a_apstrArgs[iArg]);
+				limitWidth = atoi(a_apstrArgs[iArg]);
 			}
+		}
+		else if (strcmp(a_apstrArgs[iArg], "-limitheight") == 0)
+		{
+		++iArg;
+
+		if (iArg >= (a_iArgs))
+		{
+			printf("Error: missing source_image parameter for -limitheight\n");
+			return true;
+		}
+		else
+		{
+			limitHeight = atoi(a_apstrArgs[iArg]);
+		}
 		}
 		else if (a_apstrArgs[iArg][0] == '-')
         {
@@ -827,7 +838,10 @@ void Commands::PrintUsageMessage(void)
 	printf("                                  rgba, rgbx, rec709, numeric and normalxyz\n");
 	printf("    -format <etc_format>          ETC1, RGB8, SRGB8, RGBA8, SRGB8, RGB8A1,\n");
 	printf("                                  SRGB8A1 or R11\n");
-	printf("    -limitarea <width * height>   source image's area to determine a image compression format (default=-1)\n");
+	printf("    -limitwidth <image_width>     source image's width to determine whether\n");
+	printf("                                  the image has a alpha border or not (default=0)\n");
+	printf("    -limitheight <image_height>   source image's height to determine whether\n");
+	printf("                                  the image has a alpha border or not (default=0)\n");
 	printf("                                  with out this the format is determined by -format\n");
 	printf("    -help                         prints this message\n");
 	printf("    -jobs or -j <thread_count>    specifies the number of threads (default=1)\n");

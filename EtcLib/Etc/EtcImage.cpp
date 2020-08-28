@@ -126,7 +126,7 @@ namespace Etc
 	//
 	Image::Image(float* a_pafSourceRGBA,
 		unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight,
-		ErrorMetric a_errormetric, Format a_format)
+		ErrorMetric a_errormetric, bool hasAlphaBorder)
 	{
 		m_encodingStatus = EncodingStatus::SUCCESS;
 		m_warningsToCapture = EncodingStatus::SUCCESS;
@@ -138,8 +138,7 @@ namespace Etc
 		unsigned short customWidth = m_uiSourceWidth;
 		unsigned short customHeight = m_uiSourceHeight;
 
-		// add alpha border pixels top, left, right, and bottom if the format supports alpha by hp8840
-		if (a_format == Format::RGBA8)
+		if (hasAlphaBorder)
 		{
 			customWidth += 2;
 			customHeight += 2;
@@ -147,6 +146,12 @@ namespace Etc
 			m_uix0 = m_uiy0 = 1;
 			m_uix1 = m_uix0 + m_uiSourceWidth;
 			m_uiy1 = m_uiy0 + m_uiSourceHeight;
+		}
+		else
+		{
+			m_uix0 = m_uiy0 = 0;
+			m_uix1 = m_uiSourceWidth;
+			m_uiy1 = m_uiSourceHeight;
 		}
 
 		m_uiExtendedWidth = CalcExtendedDimension(customWidth);

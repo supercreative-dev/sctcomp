@@ -69,18 +69,11 @@ namespace Etc
 		m_pfile = a_pfile;
 
 		static const char s_acMagicNumberData[4] = { 'S', 'T', '2', ' ' };
-		static const char s_acVersionData[2] = { '1', '0' };
 
 		for (unsigned int ui = 0; ui < sizeof(s_acMagicNumberData); ui++)
 		{
 			m_data.m_acMagicNumber[ui] = s_acMagicNumberData[ui];
 		}
-
-		for (unsigned int ui = 0; ui < sizeof(s_acVersionData); ui++)
-		{
-			m_data.m_acVersion[ui] = s_acVersionData[ui];
-		}
-
 
 		m_data.m_ucDataType_msb = (unsigned char)((unsigned int)m_pfile->GetImageFormat() >> 8);
 		m_data.m_ucDataType_lsb = (unsigned int)m_pfile->GetImageFormat() & 0xFF;

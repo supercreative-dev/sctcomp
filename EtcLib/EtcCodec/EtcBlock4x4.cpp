@@ -267,10 +267,9 @@ namespace Etc
 			{
 				unsigned int uiSourcePixelV = m_uiSourceV + uiBlockPixelV;
 
-				if ( m_pimageSource->GetFormat() == Etc::Image::Format::RGBA8 &&
-					(uiSourcePixelH == 0 || uiSourcePixelV == 0))
+				if ( m_pimageSource->HasAlphaBorder() && (uiSourcePixelH == 0 || uiSourcePixelV == 0))
 				{
-					// add custom alpha border pixel to very left or top pixel of the image by hp8840
+					// add custom alpha border pixel to the very left or top pixel of the image by hp8840
 					m_afrgbaSource[uiPixel] = ColorFloatRGBA(0.0f, 0.0f, 0.0f, 0.0f);
 					m_boolBorderPixels = true;
 					uiTransparentSourcePixels++;
