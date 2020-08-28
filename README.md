@@ -38,7 +38,8 @@ Options:
     -errormetric <error_metric>   specify the error metric, the options are
                                   rgba, rgbx, rec709, numeric and normalxyz
     -format <etc_format>          압축포멧 입니다. ETC1, RGB8, SRGB8, RGBA8, SRGB8, RGB8A1, SRGB8A1 or R11
-    -limitarea <image's area>     압축 포멧을 결정하도록하는 제한 값입니다. [width * height]
+    -limitwidth <image width>     압축 포멧을 결정하도록하는 제한 값입니다.
+    -limitheight <image height>   압축 포멧을 결정하도록하는 제한 값입니다.
     -help                         prints this message
     -jobs or -j <thread_count>    specifies the number of threads (default=1)
     -normalizexyz                 normalize RGB to have a length of 1
