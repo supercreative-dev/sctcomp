@@ -278,7 +278,7 @@ namespace Etc
 				{
 					ColorFloatRGBA* pfrgbaSource = nullptr;
 
-					if (m_pimageSource->GetFormat() == Etc::Image::Format::RGBA8)
+					if (m_pimageSource->HasAlphaBorder())
 					{
 						assert(uiSourcePixelH > 0 && uiSourcePixelV > 0);
 						pfrgbaSource = m_pimageSource->GetSourcePixel(uiSourcePixelH - 1, uiSourcePixelV - 1);
@@ -291,7 +291,7 @@ namespace Etc
 					// if pixel extends beyond source image because of block padding
 					if (pfrgbaSource == nullptr)
 					{
-						m_afrgbaSource[uiPixel] = ColorFloatRGBA(0.0f, 0.0f, 0.0f, NAN);	// denotes border pixel
+						m_afrgbaSource[uiPixel] = ColorFloatRGBA(0.0f, 0.0f, 0.0f, 0.0f);	// denotes border pixel
 						m_boolBorderPixels = true;
 						uiTransparentSourcePixels++;
 					}

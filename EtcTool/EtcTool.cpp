@@ -273,8 +273,7 @@ int main(int argc, const char * argv[])
 
 		Etc::Image::EncodingStatus encStatus = Etc::Image::EncodingStatus::SUCCESS;
 		
-		// commands.uiJobs
-		encStatus = image.Encode(commands.format, commands.e_ErrMetric, commands.fEffort, 1, MAX_JOBS);
+		encStatus = image.Encode(commands.format, commands.e_ErrMetric, commands.fEffort, commands.uiJobs, MAX_JOBS);
 		if (commands.verboseOutput)
 		{
 			printf("  encode time = %dms\n", image.GetEncodingTimeMs());
