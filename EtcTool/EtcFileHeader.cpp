@@ -89,13 +89,13 @@ namespace Etc
 		m_data.m_ucExtendedHeight_lsb = m_pfile->GetExtendedHeight() & 0xFF;
 
 		// x0, y0, x1, y1 for uv
-		m_data.m_ucx0_msb = (unsigned char)(1 >> 8);
+		m_data.m_ucx0_msb = (unsigned char)(m_pfile->GetX0() >> 8);
 		m_data.m_ucx0_lsb = m_pfile->GetX0() & 0xFF;
-		m_data.m_ucy0_msb = (unsigned char)(1 >> 8);
+		m_data.m_ucy0_msb = (unsigned char)(m_pfile->GetY0() >> 8);
 		m_data.m_ucy0_lsb = m_pfile->GetY0() & 0xFF;
-		m_data.m_ucx1_msb = (unsigned char)((1 + m_pfile->GetSourceWidth()) >> 8);
+		m_data.m_ucx1_msb = (unsigned char)(m_pfile->GetX1() >> 8);
 		m_data.m_ucx1_lsb = m_pfile->GetX1() & 0xFF;
-		m_data.m_ucy1_msb = (unsigned char)((1 + m_pfile->GetSourceHeight()) >> 8);
+		m_data.m_ucy1_msb = (unsigned char)(m_pfile->GetY1() >> 8);
 		m_data.m_ucy1_lsb = m_pfile->GetY1() & 0xFF;
 	}
 

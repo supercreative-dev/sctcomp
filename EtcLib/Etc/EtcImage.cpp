@@ -144,14 +144,12 @@ namespace Etc
 			customHeight += 2;
 
 			m_uix0 = m_uiy0 = 1;
-			m_uix1 = m_uix0 + m_uiSourceWidth;
-			m_uiy1 = m_uiy0 + m_uiSourceHeight;
+			m_uix1 = m_uix0 + m_uiSourceWidth - 1;
+			m_uiy1 = m_uiy0 + m_uiSourceHeight - 1;
 		}
 		else
 		{
-			m_uix0 = m_uiy0 = 0;
-			m_uix1 = m_uiSourceWidth;
-			m_uiy1 = m_uiSourceHeight;
+			m_uix0 = m_uiy0 = m_uix1 = m_uiy1 = 0;
 		}
 
 		m_uiExtendedWidth = CalcExtendedDimension(customWidth);
