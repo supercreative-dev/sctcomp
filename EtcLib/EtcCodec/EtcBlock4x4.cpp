@@ -270,10 +270,23 @@ namespace Etc
 				if ( m_pimageSource->HasAlphaBorder() && (uiSourcePixelH == 0 || uiSourcePixelV == 0))
 				{
 					// add custom alpha border pixel to the very left or top pixel of the image by hp8840
-					m_afrgbaSource[uiPixel] = ColorFloatRGBA(0.0f, 0.0f, 0.0f, 0.0f);
+					ColorFloatRGBA borderColor;
+#if _DEBUG
+					borderColor = ColorFloatRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+#else
+					borderColor = ColorFloatRGBA(0.0f, 0.0f, 0.0f, 0.0f);
 					m_boolBorderPixels = true;
 					uiTransparentSourcePixels++;
+#endif
+					m_afrgbaSource[uiPixel] = borderColor;
 				}
+#if _DEBUG
+				else if (m_pimageSource->HasAlphaBorder() &&
+					(uiSourcePixelH == m_pimageSource->GetExtendedWidth() - 1 || uiSourcePixelV == m_pimageSource->GetExtendedHeight() - 1))
+				{
+					m_afrgbaSource[uiPixel] = ColorFloatRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+				}
+#endif
 				else
 				{
 					ColorFloatRGBA* pfrgbaSource = nullptr;
