@@ -282,6 +282,15 @@ namespace Etc
 				}
 #if _DEBUG
 				else if (m_pimageSource->HasAlphaBorder() &&
+					(uiSourcePixelH == 1 || uiSourcePixelV == 1 ||
+						uiSourcePixelH == m_pimageSource->GetSourceWidth() || uiSourcePixelV == m_pimageSource->GetSourceHeight()))
+				{
+					m_afrgbaSource[uiPixel] = ColorFloatRGBA(1.0f, 0.0f, 0.0f, 1.0f);
+				}
+#endif
+
+#if _DEBUG
+				else if (m_pimageSource->HasAlphaBorder() &&
 					(uiSourcePixelH == m_pimageSource->GetExtendedWidth() - 1 || uiSourcePixelV == m_pimageSource->GetExtendedHeight() - 1))
 				{
 					m_afrgbaSource[uiPixel] = ColorFloatRGBA(1.0f, 1.0f, 1.0f, 1.0f);
