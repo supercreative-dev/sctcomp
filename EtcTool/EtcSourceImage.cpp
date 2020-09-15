@@ -38,7 +38,7 @@ namespace Etc
 
 	// ----------------------------------------------------------------------------------------------------
 	//
-	SourceImage::SourceImage(const char *a_pstrFilename, int a_iPixelX, int a_iPixelY)
+	SourceImage::SourceImage(const char *a_pstrFilename, int a_iPixelX, int a_iPixelY, bool premultiplied)
 	{
 		m_pstrFilename = nullptr;
 		m_pstrName = nullptr;
@@ -47,7 +47,7 @@ namespace Etc
 		m_uiHeight = 0;
 		m_pafrgbaPixels = nullptr;
 		m_bcontainAlpha = false;
-
+		m_bpremultipliedAlpha = premultiplied;
 
 		SetName(a_pstrFilename);
 
@@ -182,21 +182,50 @@ namespace Etc
 			{
 				if (bool16BitImage)
 				{
-						unsigned short ushR = (pucPixel[0]<<8) + pucPixel[1];
-						unsigned short ushG = (pucPixel[2]<<8) + pucPixel[3];
-						unsigned short ushB = (pucPixel[4]<<8) + pucPixel[5];
-						unsigned short ushA = (pucPixel[6]<<8) + pucPixel[7];
-						if (ushA < 65535) m_bcontainAlpha = true;
+					unsigned short ushR = (pucPixel[0]<<8) + pucPixel[1];
+					unsigned short ushG = (pucPixel[2]<<8) + pucPixel[3];
+					unsigned short ushB = (pucPixel[4]<<8) + pucPixel[5];
+					unsigned short ushA = (pucPixel[6]<<8) + pucPixel[7];
+					if (ushA < 65535) m_bcontainAlpha = true;
 
-						*pfrgbaPixel++ = ColorFloatRGBA((float)ushR / 65535.0f,
-														(float)ushG / 65535.0f,
-														(float)ushB / 65535.0f,
-														(float)ushA / 65535.0f);
+					// make an image premultiplied alpha pixels.
+					ColorFloatRGBA frgba;
+
+					if (m_bpremultipliedAlpha)
+					{
+						frgba.fA = (float)ushA / 65535.0f;
+						frgba.fR = (float)ushR / 65535.0f * frgba.fA;
+						frgba.fG = (float)ushG / 65535.0f * frgba.fA;
+						frgba.fB = (float)ushB / 65535.0f * frgba.fA;
+					}
+					else
+					{
+						frgba.fA = (float)ushA / 65535.0f;
+						frgba.fR = (float)ushR / 65535.0f;
+						frgba.fG = (float)ushG / 65535.0f;
+						frgba.fB = (float)ushB / 65535.0f;
+					}
+
+					*pfrgbaPixel++ = frgba;
 				}
 				else
 				{
-						*pfrgbaPixel++ = ColorFloatRGBA::ConvertFromRGBA8(pucPixel[0], pucPixel[1],
-																			pucPixel[2], pucPixel[3]);
+					// make an image premultiplied alpha pixels.
+					ColorFloatRGBA frgba;
+
+					if (m_bpremultipliedAlpha)
+					{
+						frgba.fA = (float)pucPixel[3] / 255.0f;
+						frgba.fR = (float)pucPixel[0] / 255.0f * frgba.fA;
+						frgba.fG = (float)pucPixel[1] / 255.0f * frgba.fA;
+						frgba.fB = (float)pucPixel[2] / 255.0f * frgba.fA;
+					}
+					else
+					{
+						frgba = ColorFloatRGBA::ConvertFromRGBA8(pucPixel[0], pucPixel[1], pucPixel[2], pucPixel[3]);
+					}
+
+					*pfrgbaPixel++ = frgba;
 				}
 
 				pucPixel += iBytesPerPixel;

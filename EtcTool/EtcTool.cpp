@@ -90,6 +90,7 @@ public:
 		i_vPixel = -1;
 		verboseOutput = false;
 		boolNormalizeXYZ = false;
+		premultiplied = false;
 		mipmaps = 1;
 		mipFilterFlags = Etc::FILTER_WRAP_NONE;
 		limitWidth = 0;
@@ -112,6 +113,7 @@ public:
 	ErrorMetric e_ErrMetric;
 	unsigned int uiJobs;		// for threading
 	bool verboseOutput;
+	bool premultiplied;
 	//when both of these are >= 0 then single block mode is on
 	int i_hPixel;
 	int i_vPixel;
@@ -150,7 +152,7 @@ int main(int argc, const char * argv[])
 	{
 		printf("SourceImage: %s\n", commands.pstrSourceFilename);
 	}
-	SourceImage sourceimage(commands.pstrSourceFilename, commands.i_hPixel, commands.i_vPixel);
+	SourceImage sourceimage(commands.pstrSourceFilename, commands.i_hPixel, commands.i_vPixel, commands.premultiplied);
 	if (commands.boolNormalizeXYZ)
 	{
 		sourceimage.NormalizeXYZ();
@@ -285,7 +287,8 @@ int main(int argc, const char * argv[])
 							image.GetEncodingBits(), image.GetEncodingBitsBytes(),
 							image.GetSourceWidth(), image.GetSourceHeight(),
 							image.GetExtendedWidth(), image.GetExtendedHeight(),
-							image.GetX0(), image.GetY0(), image.GetX1(), image.GetY1());
+							image.GetX0(), image.GetY0(), image.GetX1(), image.GetY1(),
+							commands.premultiplied);
 
 		etcfile.Write();
 
@@ -750,17 +753,21 @@ bool Commands::ProcessCommandLineArguments(int a_iArgs, const char *a_apstrArgs[
 		}
 		else if (strcmp(a_apstrArgs[iArg], "-limitheight") == 0)
 		{
-		++iArg;
+			++iArg;
 
-		if (iArg >= (a_iArgs))
-		{
-			printf("Error: missing source_image parameter for -limitheight\n");
-			return true;
+			if (iArg >= (a_iArgs))
+			{
+				printf("Error: missing source_image parameter for -limitheight\n");
+				return true;
+			}
+			else
+			{
+				limitHeight = atoi(a_apstrArgs[iArg]);
+			}
 		}
-		else
+		else if (strcmp(a_apstrArgs[iArg], "-premultiplied") == 0 || strcmp(a_apstrArgs[iArg], "-p") == 0)
 		{
-			limitHeight = atoi(a_apstrArgs[iArg]);
-		}
+			premultiplied = true;
 		}
 		else if (a_apstrArgs[iArg][0] == '-')
         {
@@ -840,6 +847,8 @@ void Commands::PrintUsageMessage(void)
 	printf("    -limitwidth <image_width>     source image's width to determine whether\n");
 	printf("                                  the image has a alpha border or not (default=0)\n");
 	printf("    -limitheight <image_height>   source image's height to determine whether\n");
+	printf("                                  the image has a alpha border or not (default=0)\n");
+	printf("    -premultiplied or -p          make the image's pixel premultiplied alpha\n");
 	printf("                                  the image has a alpha border or not (default=0)\n");
 	printf("                                  with out this the format is determined by -format\n");
 	printf("    -help                         prints this message\n");

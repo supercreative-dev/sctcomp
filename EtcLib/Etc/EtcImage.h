@@ -282,7 +282,7 @@ namespace Etc
 		//this will hold any warning or errors that happen during encoding
 		EncodingStatus m_encodingStatus;
 		//these will be the warnings we are tracking
-		EncodingStatus m_warningsToCapture;
+		EncodingStatus m_warningsToCapture;		
 	};
 
 } // namespace Etc

@@ -107,6 +107,10 @@ namespace Etc
 			unsigned char m_ucx1_lsb;
 			unsigned char m_ucy1_msb;
 			unsigned char m_ucy1_lsb;
+
+			// premultiplied alpha
+			unsigned char m_ucpa_msb;
+			unsigned char m_ucpa_lsb;
 		} Data;
 
 		Data m_data;

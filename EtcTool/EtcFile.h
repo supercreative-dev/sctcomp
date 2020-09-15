@@ -47,7 +47,8 @@ namespace Etc
 			unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight,
 			unsigned int a_uiExtendedWidth, unsigned int a_uiExtendedHeight,
 			unsigned int a_uix0, unsigned int a_uiy0,
-			unsigned int a_uix1, unsigned int a_uiy1);
+			unsigned int a_uix1, unsigned int a_uiy1,
+			bool premultipliedAlpha);
 
 		File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imageformat,
 			unsigned int a_uiNumMipmaps, RawImage *pMipmapImages,
@@ -114,6 +115,11 @@ namespace Etc
 			return m_uiy1;
 		}
 
+		inline bool HasPremultipliedAlpha()
+		{
+			return m_bPremultipliedAlpha;
+		}
+
 		inline Image::Format GetImageFormat()
 		{
 			return m_imageformat;
@@ -163,6 +169,7 @@ namespace Etc
 		unsigned int m_uiy0;
 		unsigned int m_uix1;
 		unsigned int m_uiy1;
+		bool m_bPremultipliedAlpha;
 	};
 
 }

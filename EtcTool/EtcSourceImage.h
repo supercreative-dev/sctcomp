@@ -25,7 +25,7 @@ namespace Etc
 	{
 	public:
 
-		SourceImage(const char *a_pstrFilename, int a_iPixelX = -1, int a_iPixelY = -1);
+		SourceImage(const char *a_pstrFilename, int a_iPixelX = -1, int a_iPixelY = -1, bool premultiplied = false);
 
 		SourceImage(ColorFloatRGBA *a_pafrgbaSource,
 					unsigned int a_uiSourceWidth,
@@ -93,6 +93,7 @@ namespace Etc
 		unsigned int m_uiHeight;			// not necessarily block aligned
 		ColorFloatRGBA *m_pafrgbaPixels;
 		bool m_bcontainAlpha;				// whether contains alpha or not
+		bool m_bpremultipliedAlpha;			// whether premultiplied alpha or not
 
 	};
 

@@ -97,6 +97,10 @@ namespace Etc
 		m_data.m_ucx1_lsb = m_pfile->GetX1() & 0xFF;
 		m_data.m_ucy1_msb = (unsigned char)(m_pfile->GetY1() >> 8);
 		m_data.m_ucy1_lsb = m_pfile->GetY1() & 0xFF;
+
+		// premultiplied alpha
+		m_data.m_ucpa_msb = (unsigned char)(m_pfile->HasPremultipliedAlpha() >> 8);
+		m_data.m_ucpa_lsb = m_pfile->HasPremultipliedAlpha() & 0xFF;
 	}
 
 	void FileHeader_St2::Write(FILE* a_pfile)

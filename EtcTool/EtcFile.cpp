@@ -71,6 +71,8 @@ File::File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imag
 	m_uiSourceWidth = a_uiSourceWidth;
 	m_uiSourceHeight = a_uiSourceHeight;
 
+	m_bPremultipliedAlpha = false;
+
 	switch (m_fileformat)
 	{
 	case Format::PKM:
@@ -94,7 +96,8 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 	unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight,
 	unsigned int a_uiExtendedWidth, unsigned int a_uiExtendedHeight,
 	unsigned int a_uix0, unsigned int a_uiy0,
-	unsigned int a_uix1, unsigned int a_uiy1)
+	unsigned int a_uix1, unsigned int a_uiy1,
+	bool premultipliedAlpha)
 {
 	if (a_pstrFilename == nullptr)
 	{
@@ -147,6 +150,8 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 
 	m_uix0 = a_uix0; m_uiy0 = a_uiy0;
 	m_uix1 = a_uix1; m_uiy1 = a_uiy1;
+
+	m_bPremultipliedAlpha = premultipliedAlpha;
 
 	switch (m_fileformat)
 	{
@@ -330,6 +335,8 @@ File::File(const char *a_pstrFilename, Format a_fileformat)
 	m_uiSourceHeight = ((FileHeader_Ktx*)m_pheader)->GetData()->m_u32PixelHeight;
 	m_pMipmapImages->uiExtendedWidth = Image::CalcExtendedDimension((unsigned short)m_uiSourceWidth);
 	m_pMipmapImages->uiExtendedHeight = Image::CalcExtendedDimension((unsigned short)m_uiSourceHeight);
+
+	m_bPremultipliedAlpha = false;
 
 	unsigned int uiBlocks = m_pMipmapImages->uiExtendedWidth * m_pMipmapImages->uiExtendedHeight / 16;
 	Block4x4EncodingBits::Format encodingbitsformat = Image::DetermineEncodingBitsFormat(m_imageformat);
