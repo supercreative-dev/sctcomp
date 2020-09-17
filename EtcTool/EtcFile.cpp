@@ -485,6 +485,8 @@ void File::Write()
 
 		if (m_blz4Compression)
 		{
+			printf("lz4 compressing..\n");
+
 			std::string compressed;
 			yuna::archive::compress(data, size, &compressed);
 			unsigned int iResult = (int)fwrite((unsigned char*)compressed.c_str(), 1, compressed.size(), pfile);
