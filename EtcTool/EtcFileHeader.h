@@ -111,6 +111,10 @@ namespace Etc
 			// premultiplied alpha
 			unsigned char m_ucpa_msb;
 			unsigned char m_ucpa_lsb;
+
+			// lz4 compression
+			unsigned char m_uclz4_msb;
+			unsigned char m_uclz4_lsb;
 		} Data;
 
 		Data m_data;

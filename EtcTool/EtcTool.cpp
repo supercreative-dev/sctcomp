@@ -95,6 +95,7 @@ public:
 		mipFilterFlags = Etc::FILTER_WRAP_NONE;
 		limitWidth = 0;
 		limitHeight = 0;
+		lz4 = false;
 	}
 
 	bool ProcessCommandLineArguments(int a_iArgs, const char *a_apstrArgs[]);
@@ -122,6 +123,7 @@ public:
 	unsigned int mipFilterFlags;
 	unsigned int limitWidth;
 	unsigned int limitHeight;
+	bool lz4;
 };
 
 #include "EtcFileHeader.h"
@@ -288,7 +290,7 @@ int main(int argc, const char * argv[])
 							image.GetSourceWidth(), image.GetSourceHeight(),
 							image.GetExtendedWidth(), image.GetExtendedHeight(),
 							image.GetX0(), image.GetY0(), image.GetX1(), image.GetY1(),
-							commands.premultiplied);
+							commands.premultiplied, commands.lz4);
 
 		etcfile.Write();
 
@@ -769,6 +771,10 @@ bool Commands::ProcessCommandLineArguments(int a_iArgs, const char *a_apstrArgs[
 		{
 			premultiplied = true;
 		}
+		else if (strcmp(a_apstrArgs[iArg], "-lz4") == 0)
+		{
+			lz4 = true;
+		}
 		else if (a_apstrArgs[iArg][0] == '-')
         {
 			printf("Error: unknown option (%s)\n", a_apstrArgs[iArg]);
@@ -849,8 +855,7 @@ void Commands::PrintUsageMessage(void)
 	printf("    -limitheight <image_height>   source image's height to determine whether\n");
 	printf("                                  the image has a alpha border or not (default=0)\n");
 	printf("    -premultiplied or -p          make the image's pixel premultiplied alpha\n");
-	printf("                                  the image has a alpha border or not (default=0)\n");
-	printf("                                  with out this the format is determined by -format\n");
+	printf("    -lz4				          compress the image by lz4 compression\n");
 	printf("    -help                         prints this message\n");
 	printf("    -jobs or -j <thread_count>    specifies the number of threads (default=1)\n");
 	printf("    -normalizexyz                 normalize RGB to have a length of 1\n");

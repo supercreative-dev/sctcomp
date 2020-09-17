@@ -48,7 +48,7 @@ namespace Etc
 			unsigned int a_uiExtendedWidth, unsigned int a_uiExtendedHeight,
 			unsigned int a_uix0, unsigned int a_uiy0,
 			unsigned int a_uix1, unsigned int a_uiy1,
-			bool premultipliedAlpha);
+			bool premultipliedAlpha, bool lz4compression);
 
 		File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imageformat,
 			unsigned int a_uiNumMipmaps, RawImage *pMipmapImages,
@@ -120,6 +120,11 @@ namespace Etc
 			return m_bPremultipliedAlpha;
 		}
 
+		inline bool isLz4Compression()
+		{
+			return m_blz4Compression;
+		}
+
 		inline Image::Format GetImageFormat()
 		{
 			return m_imageformat;
@@ -170,6 +175,7 @@ namespace Etc
 		unsigned int m_uix1;
 		unsigned int m_uiy1;
 		bool m_bPremultipliedAlpha;
+		bool m_blz4Compression;
 	};
 
 }

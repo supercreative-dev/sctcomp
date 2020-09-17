@@ -101,6 +101,10 @@ namespace Etc
 		// premultiplied alpha
 		m_data.m_ucpa_msb = (unsigned char)(m_pfile->HasPremultipliedAlpha() >> 8);
 		m_data.m_ucpa_lsb = m_pfile->HasPremultipliedAlpha() & 0xFF;
+
+		// lz4 compression
+		m_data.m_uclz4_msb = (unsigned char)(m_pfile->isLz4Compression() >> 8);
+		m_data.m_uclz4_lsb = m_pfile->isLz4Compression() & 0xFF;
 	}
 
 	void FileHeader_St2::Write(FILE* a_pfile)

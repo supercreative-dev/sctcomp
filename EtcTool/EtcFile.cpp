@@ -28,6 +28,8 @@
 #include "Etc.h"
 #include "EtcBlock4x4EncodingBits.h"
 
+#include "yuna/archive.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -72,6 +74,7 @@ File::File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imag
 	m_uiSourceHeight = a_uiSourceHeight;
 
 	m_bPremultipliedAlpha = false;
+	m_blz4Compression = false;
 
 	switch (m_fileformat)
 	{
@@ -97,7 +100,7 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 	unsigned int a_uiExtendedWidth, unsigned int a_uiExtendedHeight,
 	unsigned int a_uix0, unsigned int a_uiy0,
 	unsigned int a_uix1, unsigned int a_uiy1,
-	bool premultipliedAlpha)
+	bool premultipliedAlpha, bool lz4)
 {
 	if (a_pstrFilename == nullptr)
 	{
@@ -152,6 +155,7 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 	m_uix1 = a_uix1; m_uiy1 = a_uiy1;
 
 	m_bPremultipliedAlpha = premultipliedAlpha;
+	m_blz4Compression = lz4;
 
 	switch (m_fileformat)
 	{
@@ -337,6 +341,7 @@ File::File(const char *a_pstrFilename, Format a_fileformat)
 	m_pMipmapImages->uiExtendedHeight = Image::CalcExtendedDimension((unsigned short)m_uiSourceHeight);
 
 	m_bPremultipliedAlpha = false;
+	m_blz4Compression = false;
 
 	unsigned int uiBlocks = m_pMipmapImages->uiExtendedWidth * m_pMipmapImages->uiExtendedHeight / 16;
 	Block4x4EncodingBits::Format encodingbitsformat = Image::DetermineEncodingBitsFormat(m_imageformat);
@@ -475,12 +480,28 @@ void File::Write()
 			assert(szBytesWritten == sizeof(u32ImageSize));
 		}
 
-		// TODO. remove mipmap later!!
-		unsigned int iResult = (int)fwrite(m_pMipmapImages[mip].paucEncodingBits.get(), 1, m_pMipmapImages[mip].uiEncodingBitsBytes, pfile);
-		if (iResult != m_pMipmapImages[mip].uiEncodingBitsBytes)
+		unsigned char* data = m_pMipmapImages[mip].paucEncodingBits.get();
+		unsigned int size = m_pMipmapImages[mip].uiEncodingBitsBytes;
+
+		if (m_blz4Compression)
 		{
-			printf("Error: couldn't write Etc file (%s)\n", m_pstrFilename);
-			exit(1);
+			std::string compressed;
+			yuna::archive::compress(data, size, &compressed);
+			unsigned int iResult = (int)fwrite((unsigned char*)compressed.c_str(), 1, compressed.size(), pfile);
+			if (iResult != compressed.size())
+			{
+				printf("Error: couldn't write Etc file (%s)\n", m_pstrFilename);
+				exit(1);
+			}
+		}
+		else
+		{
+			unsigned int iResult = (int)fwrite(data, 1, size, pfile);
+			if (iResult != size)
+			{
+				printf("Error: couldn't write Etc file (%s)\n", m_pstrFilename);
+				exit(1);
+			}
 		}
 	}
 
