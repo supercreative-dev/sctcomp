@@ -1,9 +1,7 @@
 # sctcomp
 SuperCreative Texture Compressor
 
-sctcomp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다.
-현재는 png을 읽어들여 [ETC2](https://en.wikipedia.org/wiki/Ericsson_Texture_Compression)
-포멧으로 컨버팅 해주는 기능을 제공합니다.
+sctcomp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다. sct 포멧으로 압축하되 etc2 [ETC2](https://en.wikipedia.org/wiki/Ericsson_Texture_Compression) 포멧 베이스로 만들어집니다. 추후 (구)sct는 사라지고 ect2 베이스의 sct 포멧만 남을 예정입니다.(201120 by hp8840)
 
 ## 설치(Windows MSVS)
 1. 적당한 폴더를 만듭니다(아래)
