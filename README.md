@@ -1,7 +1,7 @@
-# st2comp
-Supercreative Texture 2.
+# sctcomp
+SuperCreative Texture Compressor
 
-st2comp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다.
+sctcomp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다.
 현재는 png을 읽어들여 [ETC2](https://en.wikipedia.org/wiki/Ericsson_Texture_Compression)
 포멧으로 컨버팅 해주는 기능을 제공합니다.
 
@@ -20,7 +20,7 @@ example: -argfile C:\etc2\EtcTool\Args.txt
 ## Usage
 
 ### Command Line Usage
-st2comp는 커맨드라인 툴이기 때문에 실행인자로 기능을 제공합니다.
+sctcomp는 커맨드라인 툴이기 때문에 실행인자로 기능을 제공합니다.
 Python 스크립트를 통해 텍스쳐 컨버터를 사용하도록 할 예정입니다.
 (핵심 옵션 및 커스텀 옵션만 번역해둡니다..)
 
