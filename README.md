@@ -1,7 +1,7 @@
 # sctcomp
 SuperCreative Texture Compressor
 
-sctcomp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다. sct포멧이지만 베이스는 [ETC2](https://en.wikipedia.org/wiki/Ericsson_Texture_Compression) 입니다. (구)sct는 사라질 예정이고 ect2 베이스의 sct 포멧만 남을 예정입니다.(201120 by hp8840)
+sctcomp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다. sct포멧이지만 베이스는 [ETC2](https://en.wikipedia.org/wiki/Ericsson_Texture_Compression) 입니다. (구)sct는 사라질 예정이고 ect2 베이스의 sct 포멧만 남을 예정입니다.
 
 ## 설치(Windows MSVS)
 1. 적당한 폴더를 만듭니다(아래)
@@ -10,12 +10,13 @@ sctcomp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다. sct
 1. 그런 다음 CMAKE를 실행시켜 주세요.
   VS 2019 : `cmake -G "Visual Studio 16 2019" -A "win32" ../`
   주의: 현재 사용하는 버전을 확인하고 싶으시면 다음의 명령어를 입력해주세요. `cmake -G`
-1. 'EtcTest' 솔루션을 연다음,
-1. 'EtcTool' 프로젝트를 start up 프로젝트로 설정하고,
+1. 'SctCompBuild' 솔루션을 연다음,
+1. 'sctcomp' 프로젝트를 start up 프로젝트로 설정하고,
 1. (optional) EtcTool 프로젝트 설정에서, 'Debugging ->command arguments'에 가셔서 명령어를 입력하여 테스트 할 수 있습니다.
 example: -argfile C:\etc2\EtcTool\Args.txt
 
 주의 : EtcTool/CMakeLists.txt에 추가해둔 헤더, 라이브러리, 소스파일은 c:\scttool와 c:\Repos 기준으로 추가되어 있습니다. 본인만의 경로에 맞춰서 수정해줄 필요 있습니다!!
+
 
 ## Usage
 
