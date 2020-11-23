@@ -855,7 +855,7 @@ void Commands::PrintUsageMessage(void)
 	printf("    -limitheight <image_height>   source image's height to determine whether\n");
 	printf("                                  the image has a alpha border or not (default=0)\n");
 	printf("    -premultiplied or -p          make the image's pixel premultiplied alpha\n");
-	printf("    -lz4				          compress the image by lz4 compression\n");
+	printf("    -lz4                          compress the image by lz4 compression\n");
 	printf("    -help                         prints this message\n");
 	printf("    -jobs or -j <thread_count>    specifies the number of threads (default=1)\n");
 	printf("    -normalizexyz                 normalize RGB to have a length of 1\n");
