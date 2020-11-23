@@ -15,6 +15,8 @@ sctcomp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다. sct
 1. (optional) EtcTool 프로젝트 설정에서, 'Debugging ->command arguments'에 가셔서 명령어를 입력하여 테스트 할 수 있습니다.
 example: -argfile C:\etc2\EtcTool\Args.txt
 
+주의 : EtcTool/CMakeLists.txt에 추가해둔 헤더, 라이브러리, 소스파일은 c:\scttool와 c:\Repos 기준으로 추가되어 있습니다. 본인만의 경로에 맞춰서 수정해줄 필요 있습니다!!
+
 ## Usage
 
 ### Command Line Usage
