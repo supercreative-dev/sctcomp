@@ -71,13 +71,13 @@ namespace Etc
 
 	// ----------------------------------------------------------------------------------------------------
 	//
-	class FileHeader_St2 : public FileHeader
+	class FileHeader_Sct : public FileHeader
 	{
 	public:
-		FileHeader_St2(File* a_pfile);
+		FileHeader_Sct(File* a_pfile);
 
 		virtual void Write(FILE* a_pfile);
-		virtual ~FileHeader_St2(void) {}
+		virtual ~FileHeader_Sct(void) {}
 
 	private:
 		typedef struct

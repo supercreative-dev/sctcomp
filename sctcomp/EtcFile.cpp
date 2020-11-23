@@ -121,9 +121,9 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 			assert(0);
 		}
 
-		if (strcmp((ext + 1), "st2") == 0)
+		if (strcmp((ext + 1), "sct") == 0)
 		{
-			m_fileformat = Format::ST2;
+			m_fileformat = Format::SCT;
 		}
 		else if (strcmp((ext + 1), "pkm") == 0)
 		{
@@ -167,8 +167,8 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 		m_pheader = new FileHeader_Ktx(this);
 		break;
 
-	case Format::ST2:
-		m_pheader = new FileHeader_St2(this);
+	case Format::SCT:
+		m_pheader = new FileHeader_Sct(this);
 		break;
 
 	default:
@@ -270,7 +270,7 @@ File::File(const char *a_pstrFilename, Format a_fileformat)
 	else if (m_fileformat == Format::PKM)
 	{
 	}
-	else if (m_fileformat == Format::ST2)
+	else if (m_fileformat == Format::SCT)
 	{
 	}
 	else

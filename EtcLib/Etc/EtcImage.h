@@ -57,31 +57,32 @@ namespace Etc
 			//
 		};
 		
-		// enum 값을 엔진과 통일 시킵니다 by hp8840
+		// [중요] etc2 enum 값을 엔진과 통일 시켜야합니다. 기본적으로 No Mipmap 입니다. by hp8840
 		enum class Format
 		{
 			UNKNOWN = -1,
+
 			//
-			ETC1 = 0,
-			//
+			ETC1 = 16,
+
 			// ETC2 formats
 			RGB8,
-			RGBA_OLD, // not used
+			SRGB8,
 			RGBA8,
+			SRGBA8,
 			RGB8A1,
+			SRGB8A1,
 			R11,
-			SIGNED_R11,
 			RG11,
+			SIGNED_R11,
 			SIGNED_RG11,
 
-			// not used below
-			SRGB8,
-			SRGBA8,
-			SRGB8A1,
+			RGBA_OLD, // not used
+			
 			//
 			FORMATS,
 			//
-			DEFAULT = SRGB8,
+			DEFAULT = RGBA8,
 		};
 
 		// constructor using source image

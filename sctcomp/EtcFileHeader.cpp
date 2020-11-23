@@ -64,11 +64,11 @@ namespace Etc
 
 	// ----------------------------------------------------------------------------------------------------
 	//
-	FileHeader_St2::FileHeader_St2(File* a_pfile)
+	FileHeader_Sct::FileHeader_Sct(File* a_pfile)
 	{
 		m_pfile = a_pfile;
 
-		static const char s_acMagicNumberData[4] = { 'S', 'T', '2', ' ' };
+		static const char s_acMagicNumberData[4] = { 'S', 'C', 'T', ' ' };
 
 		for (unsigned int ui = 0; ui < sizeof(s_acMagicNumberData); ui++)
 		{
@@ -107,7 +107,7 @@ namespace Etc
 		m_data.m_uclz4_lsb = m_pfile->isLz4Compression() & 0xFF;
 	}
 
-	void FileHeader_St2::Write(FILE* a_pfile)
+	void FileHeader_Sct::Write(FILE* a_pfile)
 	{
 		fwrite(&m_data, sizeof(Data), 1, a_pfile);
 	}

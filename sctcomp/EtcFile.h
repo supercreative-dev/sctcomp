@@ -34,7 +34,7 @@ namespace Etc
 			INFER_FROM_FILE_EXTENSION,
 			PKM,
 			KTX,
-			ST2,	// Supercreative Texture 2..
+			SCT,	// Super Creative Texture
 		};
 
 		File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imageformat,
