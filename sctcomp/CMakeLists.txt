@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project(EtcTool)
+project(sctcomp)
 
-include_directories(../EtcLib/Etc)
-include_directories(../EtcLib/EtcCodec)
+include_directories(../etclib/Etc)
+include_directories(../etclib/EtcCodec)
 include_directories(../third_party/lodepng)
 include_directories(../../Repos/ssr-projects/client/yuna)
 include_directories(../../Repos/ssr-projects/client/yuna/external)
@@ -37,8 +37,8 @@ file(GLOB SOURCES
 	../../Repos/ssr-projects/client/yuna/external/lz4/*.c)
 
 
-add_executable(EtcTool ${SOURCES})
+add_executable(sctcomp ${SOURCES})
 
-target_link_libraries (EtcTool EtcLib)
-target_link_libraries (EtcTool libzlib)
+target_link_libraries (sctcomp etclib)
+target_link_libraries (sctcomp libzlib)
 

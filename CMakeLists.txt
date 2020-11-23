@@ -13,7 +13,7 @@
 # limitations under the License.
 
 cmake_minimum_required(VERSION 2.8.9)
-project(SctComp)
+project(SctCompBuild)
 
 set (CMAKE_CXX_STANDARD 11)
 IF (APPLE)
@@ -26,5 +26,5 @@ ELSE ()
 	ENDIF()
 ENDIF ()
 
-ADD_SUBDIRECTORY(EtcLib)
-ADD_SUBDIRECTORY(EtcTool)
+ADD_SUBDIRECTORY(etclib)
+ADD_SUBDIRECTORY(sctcomp)

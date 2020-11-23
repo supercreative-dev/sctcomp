@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project(EtcLib)
+project(etclib)
 include_directories(./Etc)
 include_directories(./EtcCodec)
 
@@ -21,4 +21,4 @@ file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/EtcCodec/*.h
 	${PROJECT_SOURCE_DIR}/Etc/*.cpp
 	${PROJECT_SOURCE_DIR}/EtcCodec/*.cpp)
-ADD_LIBRARY(EtcLib ${SOURCES})
+ADD_LIBRARY(etclib ${SOURCES})
