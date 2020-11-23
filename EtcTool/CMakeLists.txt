@@ -13,16 +13,32 @@
 # limitations under the License.
 
 project(EtcTool)
+
 include_directories(../EtcLib/Etc)
 include_directories(../EtcLib/EtcCodec)
 include_directories(../third_party/lodepng)
+include_directories(../../Repos/ssr-projects/client/yuna)
+include_directories(../../Repos/ssr-projects/client/yuna/external)
+include_directories(../../Repos/ssr-projects/client/yuna/external/win32-specific/zlib/include)
+include_directories(../../Repos/ssr-projects/client/yuna/external/xxhash)
+
+link_directories(../../Repos/ssr-projects/client/yuna/external/win32-specific/zlib/prebuilt)
 
 file(GLOB SOURCES
 	${PROJECT_SOURCE_DIR}/*.h
 	${PROJECT_SOURCE_DIR}/*.cpp
 	../third_party/lodepng/*.h
-	../third_party/lodepng/*.cpp)
+	../third_party/lodepng/*.cpp
+	../../Repos/ssr-projects/client/yuna/yuna/archive.h
+	../../Repos/ssr-projects/client/yuna/yuna/archive.cpp
+	../../Repos/ssr-projects/client/yuna/external/xxhash/*.h
+	../../Repos/ssr-projects/client/yuna/external/xxhash/*.c
+	../../Repos/ssr-projects/client/yuna/external/lz4/*.h
+	../../Repos/ssr-projects/client/yuna/external/lz4/*.c)
+
+
 add_executable(EtcTool ${SOURCES})
 
 target_link_libraries (EtcTool EtcLib)
+target_link_libraries (EtcTool libzlib)
 
