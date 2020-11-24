@@ -68,7 +68,7 @@ namespace Etc
 	{
 		m_pfile = a_pfile;
 
-		static const char s_acMagicNumberData[8] = { 'E', 'T', 'C', '2', 'S', 'C', 'T', ' ' };
+		static const char s_acMagicNumberData[4] = { 'S', 'C', 'T', ' ' };
 
 		for (unsigned int ui = 0; ui < sizeof(s_acMagicNumberData); ui++)
 		{
