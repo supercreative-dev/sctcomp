@@ -46,7 +46,7 @@ Options:
     -jobs or -j <thread_count>    specifies the number of threads (default=1)
     -normalizexyz                 normalize RGB to have a length of 1
     -verbose or -v                인코딩 과정을 프린트 합니다                                  
-    -mipmaps or -m <mip_count>    생성할 밉맵의 갯수 (default=1)
+    -mipmaps or -m <mip_count>    생성할 밉맵의 갯수 (default=1) 밉맵이 설정되면 알파보더(아틀라스용)는 설정되지 않습니다.
     -mipwrap or -w <x|y|xy>       sets the mipmap filter wrap mode (default=clamp)
 
 * -analyze will run an analysis of the encoding and place it in folder 
