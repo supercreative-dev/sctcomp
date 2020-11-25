@@ -8,7 +8,7 @@ sctcomp는 google/etc2comp로부터 파생 된 커맨드라인 툴입니다. sct
 1. `mkdir build_vs`
 1. `cd build_vs`
 1. 그런 다음 CMAKE를 실행시켜 주세요.
-  VS 2019 : `cmake -G "Visual Studio 16 2019" -A "win32" ../`
+  VS 2019 : `cmake ../ -G "Visual Studio 16 2019" -A "win32"`
   주의: 현재 사용하는 버전을 확인하고 싶으시면 다음의 명령어를 입력해주세요. `cmake -G`
 1. 'SctCompBuild' 솔루션을 연다음,
 1. 'sctcomp' 프로젝트를 start up 프로젝트로 설정하고,
@@ -45,10 +45,9 @@ Options:
     -help                         prints this message
     -jobs or -j <thread_count>    specifies the number of threads (default=1)
     -normalizexyz                 normalize RGB to have a length of 1
-    -verbose or -v                shows status information during the encoding
-                                  process                                  
-	-mipmaps or -m <mip_count>    sets the maximum number of mipaps to generate (default=1)
-	-mipwrap or -w <x|y|xy>       sets the mipmap filter wrap mode (default=clamp)
+    -verbose or -v                인코딩 과정을 프린트 합니다                                  
+    -mipmaps or -m <mip_count>    생성할 밉맵의 갯수 (default=1)
+    -mipwrap or -w <x|y|xy>       sets the mipmap filter wrap mode (default=clamp)
 
 * -analyze will run an analysis of the encoding and place it in folder 
 "analysis_folder" (e.g. ../analysis/kodim05).  within the analysis_folder, a folder 
