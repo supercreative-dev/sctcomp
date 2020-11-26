@@ -51,8 +51,8 @@ namespace Etc
 			bool premultipliedAlpha, bool lz4compression);
 
 		File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imageformat,
-			unsigned int a_uiNumMipmaps, RawImage *pMipmapImages,
-			unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight );
+			unsigned int a_uiNumMipmaps, bool premultipliedAlpha, bool lz4compression,
+			RawImage *pMipmapImages, unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight );
 
 		File(const char *a_pstrFilename, Format a_fileformat);
 		~File();
@@ -160,8 +160,8 @@ namespace Etc
 		}
 
 		void UseSingleBlock(int a_iPixelX = -1, int a_iPixelY = -1);
-	private:
 
+	private:
 		char *m_pstrFilename;               // includes directory path and file extension
 		Format m_fileformat;
 		Image::Format m_imageformat;

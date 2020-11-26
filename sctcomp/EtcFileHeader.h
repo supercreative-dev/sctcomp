@@ -84,7 +84,7 @@ namespace Etc
 		{
 			char m_acMagicNumber[4];
 
-			unsigned char m_ucDataType_msb;             // e.g. ETC1_RGB_NO_MIPMAPS
+			unsigned char m_ucDataType_msb;          // e.g. ETC1_RGB_NO_MIPMAPS
 			unsigned char m_ucDataType_lsb;
 
 			unsigned char m_ucExtendedWidth_msb;     //  padded to 4x4 blocks
@@ -115,6 +115,10 @@ namespace Etc
 			// lz4 compression
 			unsigned char m_uclz4_msb;
 			unsigned char m_uclz4_lsb;
+
+			// mipmaps
+			unsigned char m_ucmipmaps_msb;
+			unsigned char m_ucmipmaps_lsb;
 		} Data;
 
 		Data m_data;

@@ -66,6 +66,7 @@ namespace Etc
 		unsigned int a_uiMaxMipmaps,
 		unsigned int a_uiMipFilterFlags,
 		RawImage* a_pMipmaps,
-		int *a_piEncodingTime_ms, bool a_bVerboseOutput = false);
+		int *a_piEncodingTime_ms,
+		bool a_bVerboseOutput = false);
 
 }

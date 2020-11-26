@@ -34,6 +34,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <vector>
 
 using namespace Etc;
 
@@ -57,8 +58,28 @@ File::File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imag
 	m_fileformat = a_fileformat;
 	if (m_fileformat == Format::INFER_FROM_FILE_EXTENSION)
 	{
-		// ***** TODO: add this later *****
-		m_fileformat = Format::PKM;
+		const char* ext = strrchr(m_pstrFilename, '.');
+		if (!ext || ext == m_pstrFilename)
+		{
+			assert(0);
+		}
+
+		if (strcmp((ext + 1), "sct") == 0)
+		{
+			m_fileformat = Format::SCT;
+		}
+		else if (strcmp((ext + 1), "pkm") == 0)
+		{
+			m_fileformat = Format::PKM;
+		}
+		else if (strcmp((ext + 1), "ktx") == 0)
+		{
+			m_fileformat = Format::KTX;
+		}
+		else
+		{
+			assert(0);
+		}
 	}
 
 	m_imageformat = a_imageformat;
@@ -84,6 +105,10 @@ File::File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imag
 
 	case Format::KTX:
 		m_pheader = new FileHeader_Ktx(this);
+		break;
+
+	case Format::SCT:
+		m_pheader = new FileHeader_Sct(this);
 		break;
 
 	default:
@@ -180,8 +205,8 @@ File::File(const char* a_pstrFilename, Format a_fileformat, Image::Format a_imag
 // ----------------------------------------------------------------------------------------------------
 //
 File::File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imageformat,
-	unsigned int a_uiNumMipmaps, RawImage *a_pMipmapImages,
-	unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight)
+	unsigned int a_uiNumMipmaps, bool premultipliedAlpha, bool lz4compression, 
+	RawImage* a_pMipmapImages, unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight)
 {
 	if (a_pstrFilename == nullptr)
 	{
@@ -193,13 +218,35 @@ File::File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imag
 		strcpy(m_pstrFilename, a_pstrFilename);
 	}
 
-	// TODO. Determining a export file extension
 	m_fileformat = a_fileformat;
 	if (m_fileformat == Format::INFER_FROM_FILE_EXTENSION)
 	{
-		// ***** TODO: add this later *****
-		m_fileformat = Format::PKM;
+		const char* ext = strrchr(m_pstrFilename, '.');
+		if (!ext || ext == m_pstrFilename)
+		{
+			assert(0);
+		}
+
+		if (strcmp((ext + 1), "sct") == 0)
+		{
+			m_fileformat = Format::SCT;
+		}
+		else if (strcmp((ext + 1), "pkm") == 0)
+		{
+			m_fileformat = Format::PKM;
+		}
+		else if (strcmp((ext + 1), "ktx") == 0)
+		{
+			m_fileformat = Format::KTX;
+		}
+		else
+		{
+			assert(0);
+		}
 	}
+
+	m_bPremultipliedAlpha = premultipliedAlpha;
+	m_blz4Compression = lz4compression;
 
 	m_imageformat = a_imageformat;
 
@@ -222,6 +269,10 @@ File::File(const char *a_pstrFilename, Format a_fileformat, Image::Format a_imag
 
 	case Format::KTX:
 		m_pheader = new FileHeader_Ktx(this);
+		break;
+
+	case Format::SCT:
+		m_pheader = new FileHeader_Sct(this);
 		break;
 
 	default:
@@ -457,6 +508,8 @@ void File::UseSingleBlock(int a_iPixelX, int a_iPixelY)
 	delete [] m_pMipmapImages;
 	m_pMipmapImages = pMipmapImages;
 }
+
+
 // ----------------------------------------------------------------------------------------------------
 //
 void File::Write()
@@ -470,18 +523,56 @@ void File::Write()
 
 	m_pheader->Write(pfile);
 
-	for(unsigned int mip = 0; mip < m_uiNumMipmaps; mip++)
+	unsigned int total_size = 0;
+	for (unsigned int mip = 0; mip < m_uiNumMipmaps; mip++)
 	{
-		if(m_fileformat == Format::KTX)
+		total_size += m_pMipmapImages[mip].uiEncodingBitsBytes;
+	}
+
+	if (m_uiNumMipmaps > 1)
+	{
+		unsigned char* buffer = new unsigned char[total_size];
+		unsigned int offset = 0;
+
+		for (unsigned int mip = 0; mip < m_uiNumMipmaps; mip++)
 		{
-			// Write u32 image size
-			uint32_t u32ImageSize = m_pMipmapImages[mip].uiEncodingBitsBytes;
-			uint32_t szBytesWritten = fwrite(&u32ImageSize, 1, sizeof(u32ImageSize), pfile);
-			assert(szBytesWritten == sizeof(u32ImageSize));
+			unsigned char* data = m_pMipmapImages[mip].paucEncodingBits.get();
+			unsigned int size = m_pMipmapImages[mip].uiEncodingBitsBytes;
+
+			memcpy(buffer + offset, data, size);
+			offset += size;
 		}
 
-		unsigned char* data = m_pMipmapImages[mip].paucEncodingBits.get();
-		unsigned int size = m_pMipmapImages[mip].uiEncodingBitsBytes;
+		if (m_blz4Compression)
+		{
+			printf("lz4 compressing..\n");
+
+			std::string compressed;
+			yuna::archive::compress(buffer, total_size, &compressed);
+			unsigned int iResult = (int)fwrite((unsigned char*)compressed.c_str(), 1, compressed.size(), pfile);
+			if (iResult != compressed.size())
+			{
+				printf("Error: couldn't write Etc file (%s)\n", m_pstrFilename);
+				exit(1);
+			}
+		}
+		else
+		{
+			unsigned int iResult = (int)fwrite(buffer, 1, total_size, pfile);
+			if (iResult != total_size)
+			{
+				printf("Error: couldn't write Etc file (%s)\n", m_pstrFilename);
+				exit(1);
+			}
+		}
+
+		delete[] buffer;
+		buffer = nullptr;
+	}
+	else
+	{
+		unsigned char* data = m_pMipmapImages[0].paucEncodingBits.get();
+		unsigned int size = m_pMipmapImages[0].uiEncodingBitsBytes;
 
 		if (m_blz4Compression)
 		{
@@ -506,6 +597,8 @@ void File::Write()
 			}
 		}
 	}
+
+	printf("job done!!!\n");
 
 	fclose(pfile);
 }

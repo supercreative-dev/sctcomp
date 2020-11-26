@@ -192,6 +192,7 @@ int main(int argc, const char * argv[])
 			printf("  encoding =  %s\n", Image::EncodingFormatToString(commands.format));
 			printf("  error metric: %s\n", ErrorMetricToString(commands.e_ErrMetric));
 		}
+		
 		Etc::EncodeMipmaps((float *)sourceimage.GetPixels(),
 			uiSourceWidth, uiSourceHeight,
 			commands.format,
@@ -203,16 +204,22 @@ int main(int argc, const char * argv[])
 			commands.mipFilterFlags,
 			pMipmapImages,
 			&iEncodingTime_ms);
+
 		if (commands.verboseOutput)
 		{
 			printf("    encode time = %dms\n", iEncodingTime_ms);
 			printf("EncodedImage: %s\n", commands.pstrOutputFilename);
 		}
-		Etc::File etcfile(commands.pstrOutputFilename, Etc::File::Format::INFER_FROM_FILE_EXTENSION,
+
+		Etc::File etcfile(commands.pstrOutputFilename,
+			Etc::File::Format::INFER_FROM_FILE_EXTENSION,
 			commands.format,
 			commands.mipmaps,
+			commands.premultiplied,
+			commands.lz4,
 			pMipmapImages,
-			uiSourceWidth, uiSourceHeight );
+			uiSourceWidth, uiSourceHeight);
+
 		etcfile.Write();
 
 		delete [] pMipmapImages;
@@ -247,19 +254,15 @@ int main(int argc, const char * argv[])
 			printf("    encode time = %dms\n", iEncodingTime_ms);
 			printf("EncodedImage: %s\n", commands.pstrOutputFilename);
 		}
-		Etc::File etcfile(commands.pstrOutputFilename, Etc::File::Format::INFER_FROM_FILE_EXTENSION,
-							commands.format,
-							paucEncodingBits, uiEncodingBitsBytes,
-							uiSourceWidth, uiSourceHeight,
-							uiExtendedWidth, uiExtendedHeight);
+		Etc::File etcfile(commands.pstrOutputFilename, Etc::File::Format::INFER_FROM_FILE_EXTENSION, commands.format,
+							paucEncodingBits, uiEncodingBitsBytes, uiSourceWidth, uiSourceHeight, uiExtendedWidth, uiExtendedHeight);
 		etcfile.Write();
 	}
 	else
 	{
-
-		// determining whether the output contains alpha borders or not
+		// determining if the texture has alpha border for the ui atlas.
 		bool hasAlphaBorder = false;
-		if (commands.limitWidth > 0 && commands.limitHeight)
+		if (commands.limitWidth > 0 && commands.limitHeight > 0)
 		{
 			hasAlphaBorder = (uiSourceWidth * uiSourceHeight) < (commands.limitWidth * commands.limitHeight);
 		}
@@ -848,8 +851,7 @@ void Commands::PrintUsageMessage(void)
 	printf("    -effort <amount>              number between 0 and 100\n");
 	printf("    -errormetric <error_metric>   specify the error metric, the options are\n");
 	printf("                                  rgba, rgbx, rec709, numeric and normalxyz\n");
-	printf("    -format <etc_format>          ETC1, RGB8, SRGB8, RGBA8, SRGB8, RGB8A1,\n");
-	printf("                                  SRGB8A1 or R11\n");
+	printf("    -format <etc_format>          ETC1, RGB8, SRGB8, RGBA8, SRGB8, RGB8A1, SRGB8A1 or R11\n");
 	printf("    -limitwidth <image_width>     source image's width to determine whether\n");
 	printf("                                  the image has a alpha border or not (default=0)\n");
 	printf("    -limitheight <image_height>   source image's height to determine whether\n");
@@ -859,9 +861,8 @@ void Commands::PrintUsageMessage(void)
 	printf("    -help                         prints this message\n");
 	printf("    -jobs or -j <thread_count>    specifies the number of threads (default=1)\n");
 	printf("    -normalizexyz                 normalize RGB to have a length of 1\n");
-	printf("    -verbose or -v                shows status information during the encoding\n");
-	printf("                                  process\n");
-	printf("    -mipmaps or -m <mip_count>    sets the maximum number of mipaps to generate (default=1)\n");
+	printf("    -verbose or -v                shows status information during the encoding process\n");
+	printf("    -mipmaps or -m <mip_count>    sets the maximum number of mipmaps to generate (default=1)\n");
 	printf("    -mipwrap or -w <x|y|xy>       sets the mipmap filter wrap mode (default=clamp)\n");
 	printf("\n");
 

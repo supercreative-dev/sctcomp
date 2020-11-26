@@ -64,7 +64,7 @@ namespace Etc
 		unsigned int a_uiMaxMipmaps,
 		unsigned int a_uiMipFilterFlags,
 		RawImage* a_pMipmapImages,
-		int *a_piEncodingTime_ms, 
+		int *a_piEncodingTime_ms,
 		bool a_bVerboseOutput)
 	{
 		auto mipWidth = a_uiSourceWidth;
@@ -90,18 +90,17 @@ namespace Etc
 
 			if ( pImageData )
 			{
-			
-				Image image(pImageData, mipWidth, mipHeight,	a_eErrMetric);
+				Image image(pImageData, mipWidth, mipHeight, a_eErrMetric);
 
-			image.m_bVerboseOutput = a_bVerboseOutput;
-			image.Encode(a_format, a_eErrMetric, a_fEffort, a_uiJobs, a_uiMaxJobs);
+				image.m_bVerboseOutput = a_bVerboseOutput;
+				image.Encode(a_format, a_eErrMetric, a_fEffort, a_uiJobs, a_uiMaxJobs);
 
-			a_pMipmapImages[mip].paucEncodingBits = std::shared_ptr<unsigned char>(image.GetEncodingBits(), [](unsigned char *p) { delete[] p; });
-			a_pMipmapImages[mip].uiEncodingBitsBytes = image.GetEncodingBitsBytes();
-			a_pMipmapImages[mip].uiExtendedWidth = image.GetExtendedWidth();
-			a_pMipmapImages[mip].uiExtendedHeight = image.GetExtendedHeight();
+				a_pMipmapImages[mip].paucEncodingBits = std::shared_ptr<unsigned char>(image.GetEncodingBits(), [](unsigned char *p) { delete[] p; });
+				a_pMipmapImages[mip].uiEncodingBitsBytes = image.GetEncodingBitsBytes();
+				a_pMipmapImages[mip].uiExtendedWidth = image.GetExtendedWidth();
+				a_pMipmapImages[mip].uiExtendedHeight = image.GetExtendedHeight();
 
-			totalEncodingTime += image.GetEncodingTimeMs();
+				totalEncodingTime += image.GetEncodingTimeMs();
 			}
 
 			if(pMipImage)
@@ -120,9 +119,4 @@ namespace Etc
 
 		*a_piEncodingTime_ms = totalEncodingTime;
 	}
-
-
-	// ----------------------------------------------------------------------------------------------------
-	//
-
 }

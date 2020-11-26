@@ -68,7 +68,7 @@ namespace Etc
 	{
 		m_pfile = a_pfile;
 
-		static const char s_acMagicNumberData[4] = { 'S', 'C', 'T', ' ' };
+		static const char s_acMagicNumberData[4] = { 'S', 'C', 'T', '2' };
 
 		for (unsigned int ui = 0; ui < sizeof(s_acMagicNumberData); ui++)
 		{
@@ -105,6 +105,10 @@ namespace Etc
 		// lz4 compression
 		m_data.m_uclz4_msb = (unsigned char)(m_pfile->isLz4Compression() >> 8);
 		m_data.m_uclz4_lsb = m_pfile->isLz4Compression() & 0xFF;
+
+		// mipmaps
+		m_data.m_ucmipmaps_msb = (unsigned char)(m_pfile->GetNumMipmaps() >> 8);
+		m_data.m_ucmipmaps_lsb = m_pfile->GetNumMipmaps() & 0xFF;
 	}
 
 	void FileHeader_Sct::Write(FILE* a_pfile)

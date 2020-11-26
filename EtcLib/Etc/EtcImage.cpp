@@ -80,9 +80,7 @@ namespace Etc
 	// constructor using source image
 	// used to set state before Encode() is called
 	//
-	Image::Image(float* a_pafSourceRGBA,
-		unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight,
-		ErrorMetric a_errormetric)
+	Image::Image(float* a_pafSourceRGBA, unsigned int a_uiSourceWidth, unsigned int a_uiSourceHeight, ErrorMetric a_errormetric)
 	{
 		m_encodingStatus = EncodingStatus::SUCCESS;
 		m_warningsToCapture = EncodingStatus::SUCCESS;
@@ -241,6 +239,8 @@ namespace Etc
 				uiV += 4;
 			}
 		}
+
+		m_uix0 = m_uiy0 = m_uix1 = m_uiy1 = 0;
 	}
 
 	// ----------------------------------------------------------------------------------------------------
@@ -253,6 +253,7 @@ namespace Etc
 			m_pablock = nullptr;
 		}
 
+		// 이거 왜 안날림??
 		/*if (m_paucEncodingBits != nullptr)
 		{
 			delete[] m_paucEncodingBits;

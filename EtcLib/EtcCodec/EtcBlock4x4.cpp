@@ -284,17 +284,7 @@ namespace Etc
 				}
 				else
 				{
-					ColorFloatRGBA* pfrgbaSource = nullptr;
-
-					if (m_pimageSource->HasAlphaBorder())
-					{
-						assert(uiSourcePixelH > 0 && uiSourcePixelV > 0);
-						pfrgbaSource = m_pimageSource->GetSourcePixel(uiSourcePixelH - 1, uiSourcePixelV - 1);
-					}
-					else
-					{
-						pfrgbaSource = m_pimageSource->GetSourcePixel(uiSourcePixelH, uiSourcePixelV);
-					}
+					ColorFloatRGBA* pfrgbaSource = m_pimageSource->GetSourcePixel(uiSourcePixelH, uiSourcePixelV);
 
 					// if pixel extends beyond source image because of block padding
 					if (pfrgbaSource == nullptr)
